@@ -14,27 +14,36 @@ const { authenticateToken, requireAdmin } = require('./middlewares/auth')
 
 const app = express()
 const port = process.env.PORT || 5000
+const API_URL = 'https://product-management-system-aqwk.onrender.com'
 const frontendUrl = process.env.FRONTEND_URL || 'https://task1-product-management.web.app/'
-const allowedOrigins = new Set([
-	frontendUrl,
-	'https://task1-product-management.web.app/'
-	
-])
+const allowedOrigins = [
+    'https://task1-product.web.app',
+    'http://localhost:5173'
+]
+
+// Configure multer to store files in memory so the buffer can be accessed
 const upload = multer({ storage: multer.memoryStorage() })
 
 app.use(
-	cors({
-		origin(origin, callback) {
-			if (!origin || allowedOrigins.has(origin)) {
-				callback(null, true)
-				return
-			}
+    cors({
+        origin: function (origin, callback) {
+            if (!origin) {
+                return callback(null, true)
+            }
 
-			callback(new Error('CORS blocked this origin'))
-		},
-		methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-	}),
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true)
+            }
+
+            return callback(new Error(`CORS blocked: ${origin}`))
+        },
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    })
 )
+
+app.options('*', cors())
 app.use(express.json())
 
 app.get('/', (request, response) => {

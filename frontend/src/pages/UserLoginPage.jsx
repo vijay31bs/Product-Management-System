@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = 'https://product-management-system-aqwk.onrender.com/api'
 
 async function readResponseMessage(response, fallbackMessage) {
   const responseText = await response.text()
