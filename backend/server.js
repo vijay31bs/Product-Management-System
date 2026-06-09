@@ -14,13 +14,11 @@ const { authenticateToken, requireAdmin } = require('./middlewares/auth')
 
 const app = express()
 const port = process.env.PORT || 5000
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173'
+const frontendUrl = process.env.FRONTEND_URL || 'https://task1-product-management.web.app/'
 const allowedOrigins = new Set([
 	frontendUrl,
-	'http://localhost:5173',
-	'http://127.0.0.1:5173',
-	'https://localhost:5173',
-	'https://127.0.0.1:5173',
+	'https://task1-product-management.web.app/'
+	
 ])
 const upload = multer({ storage: multer.memoryStorage() })
 
